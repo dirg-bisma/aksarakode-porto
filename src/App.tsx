@@ -5,8 +5,12 @@
 
 import { motion, useScroll, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
+import { translations } from "./translations";
 
 export default function App() {
+  const [lang, setLang] = useState<'en' | 'id'>('en');
+  const t = translations[lang];
+
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -46,22 +50,34 @@ export default function App() {
             AKSARAKODE
           </div>
           <div className="hidden md:flex items-center space-x-8">
-            {['Solutions', 'Hardware', 'Software', 'Tech Stack', 'About'].map((item) => (
+            {[
+              { id: 'solutions', label: t.nav.solutions },
+              { id: 'hardware', label: t.nav.hardware },
+              { id: 'software', label: t.nav.software },
+              { id: 'tech-stack', label: t.nav.techStack },
+              { id: 'about', label: t.nav.about }
+            ].map((item) => (
               <button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
                 className="font-headline uppercase tracking-wider text-xs md:text-sm font-bold text-slate-400 hover:text-white transition-all duration-300 active:scale-95"
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </div>
-          <button 
-            onClick={() => scrollToSection('contact')}
-            className="bg-gradient-to-r from-primary to-primary-container text-on-primary-container px-6 py-2.5 rounded-lg text-sm font-bold font-headline uppercase tracking-tight active:scale-95 transition-transform"
-          >
-            Contact Us
-          </button>
+          <div className="flex items-center space-x-4 md:space-x-8">
+            <button onClick={() => setLang(lang === 'en' ? 'id' : 'en')} className="font-headline text-xs font-bold text-primary hover:text-white transition-colors flex items-center gap-2">
+              <i className="fa-solid fa-globe text-sm md:text-base"></i>
+              <span className="hidden xs:inline">{lang.toUpperCase()}</span>
+            </button>
+            <button 
+              onClick={() => scrollToSection('contact')}
+              className="bg-gradient-to-r from-primary to-primary-container text-on-primary-container px-4 md:px-6 py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-bold font-headline uppercase tracking-tight active:scale-95 transition-transform"
+            >
+              {t.nav.contact}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -86,29 +102,31 @@ export default function App() {
               className="max-w-4xl"
             >
               <span className="inline-block px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
-                Precision Engineering Phase 1.0
+                {t.hero.tag}
               </span>
               <h1 className="text-5xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8">
-                Empowering Industry <br/>
-                <span className="text-primary">&amp;</span> Agriculture through Integrated <br/>
-                <span className="text-tertiary">Technology</span>
+                {lang === 'en' ? (
+                  <>Empowering Industry <br/><span className="text-primary">&amp;</span> Agriculture through Integrated <br/><span className="text-tertiary">Technology</span></>
+                ) : (
+                  <>Memberdayakan Industri <br/><span className="text-primary">&amp;</span> Pertanian melalui Teknologi <br/><span className="text-tertiary">Terintegrasi</span></>
+                )}
               </h1>
               <p className="text-on-surface-variant text-lg md:text-xl max-w-2xl font-light mb-10 leading-relaxed">
-                End-to-end IoT ecosystems and custom software solutions designed to transform traditional workflows into data-driven operations.
+                {t.hero.subtitle}
               </p>
               <div className="flex flex-wrap gap-4">
                 <button 
                   onClick={() => scrollToSection('solutions')}
                   className="px-8 py-4 bg-primary text-on-primary font-bold rounded-lg flex items-center gap-2 active:scale-95 transition-all hover:brightness-110"
                 >
-                  EXPLORE SOLUTIONS
-                  <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                  {t.hero.explore}
+                  <i className="fa-solid fa-arrow-right"></i>
                 </button>
                 <button 
                   onClick={() => scrollToSection('hardware')}
                   className="px-8 py-4 bg-surface-container-high text-white font-bold rounded-lg border border-outline-variant/30 active:scale-95 transition-all hover:bg-surface-container-highest"
                 >
-                  VIEW HARDWARE
+                  {t.hero.viewHardware}
                 </button>
               </div>
             </motion.div>
@@ -161,8 +179,8 @@ export default function App() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4">Functional Domains</h2>
-                <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Core Services</h3>
+                <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4">{t.services.tag}</h2>
+                <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight">{t.services.title}</h3>
               </motion.div>
               <motion.p 
                 initial={{ opacity: 0, x: 30 }}
@@ -170,7 +188,7 @@ export default function App() {
                 viewport={{ once: true }}
                 className="text-on-surface-variant max-w-md text-sm leading-relaxed"
               >
-                Synthesizing hardware and software to create monolithic reliability in fragmented environments.
+                {t.services.subtitle}
               </motion.p>
             </div>
 
@@ -182,9 +200,9 @@ export default function App() {
                 className="md:col-span-8 bg-surface-container-high p-8 md:p-12 rounded-lg relative overflow-hidden group"
               >
                 <div className="relative z-10 h-full flex flex-col">
-                  <span className="material-symbols-outlined text-primary text-4xl mb-6">settings_input_component</span>
-                  <h4 className="text-3xl font-bold text-white mb-4">IoT &amp; Hardware Engineering</h4>
-                  <p className="text-on-surface-variant max-w-xl mb-8">From custom PCB layouts to complex sensor arrays. We build the physical backbone of your digital infrastructure using industrial-grade components.</p>
+                  <span className="material-symbols-outlined text-primary text-4xl mb-6 truncate"><i className="fa-solid fa-microchip"></i></span>
+                  <h4 className="text-3xl font-bold text-white mb-4">{t.services.iot.title}</h4>
+                  <p className="text-on-surface-variant max-w-xl mb-8">{t.services.iot.desc}</p>
                   <ul className="grid grid-cols-2 gap-4 text-sm font-mono text-slate-400">
                     {['PCB DESIGN', 'SENSOR MONITORING', 'EMBEDDED SYSTEMS', 'FIRMWARE DEV'].map(item => (
                       <li key={item} className="flex items-center gap-2">
@@ -210,10 +228,10 @@ export default function App() {
                 className="md:col-span-4 bg-secondary-container p-8 rounded-lg flex flex-col justify-between text-on-secondary-container"
               >
                 <div>
-                  <span className="material-symbols-outlined text-4xl mb-6">terminal</span>
-                  <h4 className="text-3xl font-bold mb-4">Software Development</h4>
+                  <span className="material-symbols-outlined text-4xl mb-6 truncate"><i className="fa-solid fa-code"></i></span>
+                  <h4 className="text-3xl font-bold mb-4">{t.services.software.title}</h4>
                   <p className="text-on-secondary-container/80 text-sm leading-relaxed mb-6">
-                    Scalable cloud architectures and intuitive interfaces. Mobile apps with Flutter and high-performance backends with Go.
+                    {t.services.software.desc}
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -236,8 +254,8 @@ export default function App() {
                 className="md:col-span-12 bg-surface p-8 md:p-12 rounded-lg border border-outline-variant/10 flex flex-col md:flex-row items-center gap-12"
               >
                 <div className="flex-1">
-                  <h4 className="text-3xl font-bold text-white mb-4">Industrial Solutions</h4>
-                  <p className="text-on-surface-variant mb-6">Automating heavy industry with precision weighing systems and factory floor optimization. We turn physical mass into digital data points.</p>
+                  <h4 className="text-3xl font-bold text-white mb-4">{t.services.industrial.title}</h4>
+                  <p className="text-on-surface-variant mb-6">{t.services.industrial.desc}</p>
                   <div className="flex gap-4">
                     <div className="px-4 py-2 bg-surface-container-high rounded text-xs font-bold text-primary">FACTORY AUTOMATION</div>
                     <div className="px-4 py-2 bg-surface-container-high rounded text-xs font-bold text-primary">WEIGHBRIDGE SYSTEMS</div>
@@ -260,25 +278,25 @@ export default function App() {
         <section id="product-verticals" className="py-24 bg-surface">
           <div className="container mx-auto px-6 md:px-12">
             <div className="text-center mb-20">
-              <h2 className="text-5xl font-black text-white tracking-tighter mb-4">PRODUCT VERTICALS</h2>
+              <h2 className="text-5xl font-black text-white tracking-tighter mb-4">{t.products.title}</h2>
               <div className="h-1 w-24 bg-primary mx-auto"></div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  title: 'Motorized Tools',
-                  desc: 'High-efficiency mechanical systems for intensive agricultural tasks.',
+                  title: t.products.items[0].title,
+                  desc: t.products.items[0].desc,
                   img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDMlyE-hCjxsLHAJrAJu5Sw5xR-aqFHh-ZxDvWwnlRUAvXqaipMZ8gRPHvCXa5QE8WiyducUOBGvXKRRVgk2p9KAptg5l0QJ6tw78LeY3WqvqegMmMy5of__uNYISCDBxo5xHLY_j6t8sK6RUiCuejuxJeKDelW_8LIerB-J98aKJjkNuxdLNhUcI5VatSimCrkQabtui4WpEotryK6SxpS5BM19qqjOsnUjTB5QYfCef3HxoCPybgc5ogZ4A-_FiXB1n-NBoGIuok'
                 },
                 {
-                  title: 'Advanced Hand Tools',
-                  desc: 'Ergonomic designs meeting industrial standards for durability and precision.',
+                  title: t.products.items[1].title,
+                  desc: t.products.items[1].desc,
                   img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBbWxGc02OmJErqI0IddKBcFN9QsMqJyQH3p6lPv0oq4VH9jmcPs0dnrjokrD6rLw-c5ABuxQB-1_AaqCtv--pQe2kzcR6ZpEVkZ-q3pem0Ni9z7o-Xx78DYl1AKY8lJjBf33LwlJwlyCGz0xcO32EoyfqAk21U0djOvl5G_6dx2J6SnL_0RrvI_rf0Z-xMpDzVgpCbREMudizOp5ASFFcfNhQYDUnpGanxhMslzVQ4Z_j2pjN0ij24DSSXnyoQWYzD4_FkpkFqQqM'
                 },
                 {
-                  title: 'Industrial IoT Nodes',
-                  desc: 'Wireless telemetry units for real-time monitoring of soil and factory assets.',
+                  title: t.products.items[2].title,
+                  desc: t.products.items[2].desc,
                   img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuChXZjpKv9HcE5WcCnJdtYWynVLGoEC4a_u-9kYcxB3hC0n4HYypUzUTOZMJN-9iEDJ6-vRzpZbKHc2fJrI94JeW_RxPNeYeq_ntiItfZClCsOYksRBSBw4pH33rGjZwLIgPrfHh8mLthsjE4Xc1fGebmIgf-WNAPfo3uvUINiMG_gaYSqXs-H-nq5XcZLe_NfD0jtNHwEEgE3BjqHPwmvjtf7N8G5XF1YUHgWYAhwvHtHVsLH2ZxVTCZoyVRVWrBMUjgfsu_t5nPg'
                 }
               ].map((product, idx) => (
@@ -302,7 +320,7 @@ export default function App() {
                   <h5 className="text-xl font-bold text-white mb-2">{product.title}</h5>
                   <p className="text-on-surface-variant text-sm leading-relaxed mb-4">{product.desc}</p>
                   <a className="text-primary text-xs font-bold tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all" href="#">
-                    VIEW CATALOG <span className="material-symbols-outlined text-sm">east</span>
+                    {t.products.viewCatalog} <i className="fa-solid fa-arrow-right"></i>
                   </a>
                 </motion.div>
               ))}
@@ -342,22 +360,22 @@ export default function App() {
                 className="relative"
               >
                 <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-[80px]"></div>
-                <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4">Engineering the Future</h2>
-                <h3 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-8">PT Aksara Kode Agritech Adimulya</h3>
+                <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4">{t.about.tag}</h2>
+                <h3 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-8">{t.about.title}</h3>
                 <p className="text-on-surface-variant text-lg leading-relaxed mb-6">
-                  Founded on the principle of technical excellence, Aksara Kode serves as a vital bridge between traditional industrial practices and the digital frontier. 
+                  {t.about.p1}
                 </p>
                 <p className="text-on-surface-variant text-lg leading-relaxed mb-10">
-                  We specialize in creating bespoke ecosystems for agriculture and manufacturing—where every line of code and every solder joint is optimized for maximum efficiency and long-term sustainability.
+                  {t.about.p2}
                 </p>
                 <div className="grid grid-cols-2 gap-8">
                   <div>
                     <div className="text-3xl font-black text-primary mb-1">100%</div>
-                    <div className="text-xs font-bold text-slate-500 uppercase">Custom Solutions</div>
+                    <div className="text-xs font-bold text-slate-500 uppercase">{t.about.stats.solutions}</div>
                   </div>
                   <div>
                     <div className="text-3xl font-black text-tertiary mb-1">24/7</div>
-                    <div className="text-xs font-bold text-slate-500 uppercase">System Uptime</div>
+                    <div className="text-xs font-bold text-slate-500 uppercase">{t.about.stats.uptime}</div>
                   </div>
                 </div>
               </motion.div>
@@ -384,8 +402,8 @@ export default function App() {
                   </div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 p-6 glass-panel border border-outline-variant/20 rounded-lg">
-                  <p className="text-xs font-mono text-primary mb-2">// ESTABLISHED 2024</p>
-                  <p className="text-[10px] text-slate-400">Headquartered in Indonesia,<br/>serving the global agritech sector.</p>
+                  <p className="text-xs font-mono text-primary mb-2">// {t.about.established}</p>
+                  <p className="text-[10px] text-slate-400">{t.about.hq}</p>
                 </div>
               </motion.div>
             </div>
@@ -397,21 +415,21 @@ export default function App() {
           <div className="container mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
               <div className="md:col-span-5">
-                <h2 className="text-4xl font-bold text-white tracking-tight mb-6">Technical Inquiry</h2>
-                <p className="text-on-surface-variant mb-10">Our engineers are ready to discuss your specific infrastructure needs. Reach out for a technical consultation or project quote.</p>
+                <h2 className="text-4xl font-bold text-white tracking-tight mb-6">{t.contact.title}</h2>
+                <p className="text-on-surface-variant mb-10">{t.contact.subtitle}</p>
                 <div className="space-y-8">
                   <div className="flex items-start gap-4">
-                    <span className="material-symbols-outlined text-primary">location_on</span>
+                    <span className="text-primary"><i className="fa-solid fa-location-dot"></i></span>
                     <div>
-                      <h6 className="text-white font-bold mb-1 text-sm">Office Location</h6>
-                      <p className="text-xs text-slate-400 leading-relaxed">Jl. Industri Raya No. 42, Techno Hub District,<br/>Adimulya, Indonesia.</p>
+                      <h6 className="text-white font-bold mb-1 text-sm">{t.contact.office.title}</h6>
+                      <p className="text-xs text-slate-400 leading-relaxed">{t.contact.office.address}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <span className="material-symbols-outlined text-primary">mail</span>
+                    <span className="text-primary"><i className="fa-solid fa-envelope"></i></span>
                     <div>
-                      <h6 className="text-white font-bold mb-1 text-sm">Email Address</h6>
-                      <p className="text-xs text-slate-400">engineering@aksarakode.id</p>
+                      <h6 className="text-white font-bold mb-1 text-sm">{t.contact.email.title}</h6>
+                      <p className="text-xs text-slate-400">sales@aksarakodeagritech.com</p>
                     </div>
                   </div>
                 </div>
@@ -426,29 +444,28 @@ export default function App() {
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
+                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{t.contact.form.name}</label>
                       <input className="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary transition-colors text-white py-2" placeholder="John Doe" type="text"/>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Work Email</label>
+                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{t.contact.form.email}</label>
                       <input className="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary transition-colors text-white py-2" placeholder="john@company.com" type="email"/>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Industry Vertical</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{t.contact.form.industry}</label>
                     <select className="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary transition-colors text-white py-2 appearance-none">
-                      <option className="bg-surface">Agriculture</option>
-                      <option className="bg-surface">Manufacturing</option>
-                      <option className="bg-surface">IoT Hardware</option>
-                      <option className="bg-surface">Custom Software</option>
+                      {t.contact.form.verticals.map(v => (
+                        <option key={v} className="bg-surface">{v}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Project Details</label>
-                    <textarea className="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary transition-colors text-white py-2 resize-none" placeholder="Describe your technical challenge..." rows={4}></textarea>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{t.contact.form.details}</label>
+                    <textarea className="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary transition-colors text-white py-2 resize-none" placeholder={t.contact.form.detailsPlaceholder} rows={4}></textarea>
                   </div>
                   <button className="w-full py-4 bg-primary text-on-primary font-bold rounded-lg uppercase tracking-[0.1em] hover:brightness-110 active:scale-95 transition-all">
-                    SEND REQUEST
+                    {t.contact.form.submit}
                   </button>
                 </form>
               </motion.div>
@@ -463,22 +480,25 @@ export default function App() {
           <div className="space-y-4 text-center md:text-left">
             <div className="font-headline font-bold text-primary tracking-tighter text-2xl">AKSARAKODE</div>
             <p className="text-xs font-light tracking-wide text-slate-500 max-w-sm">
-              © 2024 PT Aksara Kode Agritech Adimulya. Engineering the Future of Precision Agriculture.
+              {t.footer.copy}
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-8">
-            {['IoT Solutions', 'Hardware Design', 'Privacy Policy', 'Terms of Service'].map(link => (
+            {t.footer.links.map(link => (
               <a key={link} className="text-xs font-light tracking-wide text-slate-500 hover:text-primary hover:translate-x-1 transition-all duration-200" href="#">
                 {link}
               </a>
             ))}
           </div>
-          <div className="flex gap-4">
-            <button className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-primary/20 transition-colors">
-              <span className="material-symbols-outlined text-slate-400 text-sm">share</span>
+          <div className="flex gap-6">
+            <button className="text-slate-400 hover:text-primary transition-colors">
+              <i className="fa-brands fa-linkedin text-xl"></i>
             </button>
-            <button className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-primary/20 transition-colors">
-              <span className="material-symbols-outlined text-slate-400 text-sm">language</span>
+            <button className="text-slate-400 hover:text-primary transition-colors">
+              <i className="fa-brands fa-instagram text-xl"></i>
+            </button>
+            <button className="text-slate-400 hover:text-primary transition-colors">
+              <i className="fa-solid fa-envelope text-xl"></i>
             </button>
           </div>
         </div>
