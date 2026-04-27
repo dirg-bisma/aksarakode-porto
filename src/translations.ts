@@ -5,6 +5,7 @@ export const translations = {
       solutions: "Solutions",
       hardware: "Hardware",
       software: "Software",
+      projects: "Projects",
       techStack: "Tech Stack",
       about: "About",
       contact: "Contact Us"
@@ -51,6 +52,32 @@ export const translations = {
       ],
       viewCatalog: "VIEW CATALOG"
     },
+    projects: {
+      tag: "Case Studies",
+      title: "Featured Projects",
+      subtitle: "Discover how we help our partners transform their operations with precision technology.",
+      items: [
+        {
+          title: "Smart Greenhouse Automation",
+          client: "AgriCorp Farm",
+          desc: "Fully automated climate and irrigation control system integrating ESP32 nodes and custom cloud backend.",
+          tech: ["IoT", "ESP32", "Go", "React"]
+        },
+        {
+          title: "Industrial Conveyor Monitor",
+          client: "Manufacto PT",
+          desc: "Real-time telemetry and predictive maintenance dashboard for factory conveyor belts.",
+          tech: ["Hardware", "Docker", "Postgres", "Flutter"]
+        },
+        {
+          title: "Precision Soil Sensors",
+          client: "National Agriculture Dept",
+          desc: "Deployment of low-power soil monitoring nodes to optimize crop yields across vast fields.",
+          tech: ["LoRa", "Hardware", "Cloud"]
+        }
+      ],
+      viewAll: "VIEW ALL PROJECTS"
+    },
     about: {
       tag: "Engineering the Future",
       title: "PT Aksara Kode Agritech Adimulya",
@@ -93,6 +120,7 @@ export const translations = {
       solutions: "Solusi",
       hardware: "Perangkat Keras",
       software: "Perangkat Lunak",
+      projects: "Proyek",
       techStack: "Teknologi",
       about: "Tentang",
       contact: "Hubungi Kami"
@@ -138,6 +166,32 @@ export const translations = {
         }
       ],
       viewCatalog: "LIHAT KATALOG"
+    },
+    projects: {
+      tag: "Studi Kasus",
+      title: "Proyek Unggulan",
+      subtitle: "Temukan bagaimana kami membantu mitra kami mentransformasi operasi mereka dengan teknologi presisi.",
+      items: [
+        {
+          title: "Otomasi Rumah Kaca Pintar",
+          client: "AgriCorp Farm",
+          desc: "Sistem kontrol iklim dan irigasi yang sepenuhnya otomatis yang mengintegrasikan node ESP32 dan backend cloud kustom.",
+          tech: ["IoT", "ESP32", "Go", "React"]
+        },
+        {
+          title: "Monitor Konveyor Industri",
+          client: "Manufacto PT",
+          desc: "Telemetri waktu nyata dan dasbor pemeliharaan prediktif untuk ban berjalan pabrik.",
+          tech: ["Perangkat Keras", "Docker", "Postgres", "Flutter"]
+        },
+        {
+          title: "Sensor Tanah Presisi",
+          client: "Departemen Pertanian Nasional",
+          desc: "Penerapan node pemantauan tanah berdaya rendah untuk mengoptimalkan hasil panen di ladang yang luas.",
+          tech: ["LoRa", "Perangkat Keras", "Cloud"]
+        }
+      ],
+      viewAll: "LIHAT SEMUA PROYEK"
     },
     about: {
       tag: "Merekayasa Masa Depan",
