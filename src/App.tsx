@@ -54,6 +54,7 @@ export default function App() {
               { id: 'solutions', label: t.nav.solutions },
               { id: 'hardware', label: t.nav.hardware },
               { id: 'software', label: t.nav.software },
+              { id: 'projects', label: t.nav.projects },
               { id: 'tech-stack', label: t.nav.techStack },
               { id: 'about', label: t.nav.about }
             ].map((item) => (
@@ -324,6 +325,58 @@ export default function App() {
                   </a>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Projects Section */}
+        <section id="projects" className="py-24 bg-surface-container-low">
+          <div className="container mx-auto px-6 md:px-12">
+            <div className="text-center mb-16">
+              <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4">{t.projects.tag}</h2>
+              <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">{t.projects.title}</h3>
+              <p className="text-on-surface-variant max-w-2xl mx-auto">{t.projects.subtitle}</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {t.projects.items.map((project, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group bg-surface rounded-xl border border-outline-variant/20 overflow-hidden hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
+                >
+                  <div className="p-8 h-full flex flex-col">
+                    <div className="mb-4">
+                      <span className="text-[10px] font-mono text-tertiary tracking-widest uppercase px-2 py-1 bg-tertiary/10 rounded">
+                        {project.client}
+                      </span>
+                    </div>
+                    <h4 className="text-xl font-bold text-white mb-4 group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h4>
+                    <p className="text-sm text-on-surface-variant mb-8 flex-grow">
+                      {project.desc}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mt-auto">
+                      {project.tech.map(tech => (
+                        <span key={tech} className="text-xs font-medium text-slate-400 bg-surface-container px-3 py-1 rounded-full border border-outline-variant/30">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-16 text-center">
+              <button className="text-xs font-bold text-primary tracking-[0.2em] hover:text-white transition-colors uppercase border-b border-primary pb-1 group inline-flex items-center gap-2">
+                {t.projects.viewAll}
+                <i className="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+              </button>
             </div>
           </div>
         </section>
